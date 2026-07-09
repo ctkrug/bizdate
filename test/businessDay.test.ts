@@ -15,6 +15,13 @@ describe('isTradingDay', () => {
   it('treats NYSE holidays as non-trading days', () => {
     expect(isTradingDay(new Date('2024-12-25T12:00:00'), nyseCalendar)).toBe(false); // Christmas
   });
+
+  it('recognizes 2027 holidays, including an observed-date shift', () => {
+    expect(isTradingDay(new Date('2027-01-18T12:00:00'), nyseCalendar)).toBe(false); // MLK Day
+    // Christmas 2027 falls on a Saturday, observed the preceding Friday.
+    expect(isTradingDay(new Date('2027-12-24T12:00:00'), nyseCalendar)).toBe(false);
+    expect(isTradingDay(new Date('2027-12-25T12:00:00'), nyseCalendar)).toBe(false); // the actual Saturday
+  });
 });
 
 describe('nextTradingDay', () => {

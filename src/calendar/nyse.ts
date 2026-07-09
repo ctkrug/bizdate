@@ -1,7 +1,7 @@
 import type { Holiday } from '../types.js';
 
 /**
- * NYSE full-market-closure holidays, 2024-2026.
+ * NYSE full-market-closure holidays, 2024-2027.
  *
  * Dates already reflect the exchange's weekend-observance rules (e.g. a
  * holiday landing on Saturday is observed the preceding Friday) rather than
@@ -47,4 +47,16 @@ export const NYSE_HOLIDAYS: readonly Holiday[] = [
   { date: '2026-09-07', name: 'Labor Day' },
   { date: '2026-11-26', name: 'Thanksgiving Day' },
   { date: '2026-12-25', name: 'Christmas Day' },
+
+  // 2027
+  { date: '2027-01-01', name: "New Year's Day" },
+  { date: '2027-01-18', name: 'Martin Luther King, Jr. Day' },
+  { date: '2027-02-15', name: "Washington's Birthday" },
+  { date: '2027-03-26', name: 'Good Friday' },
+  { date: '2027-05-31', name: 'Memorial Day' },
+  { date: '2027-06-18', name: 'Juneteenth National Independence Day (observed)' },
+  { date: '2027-07-05', name: 'Independence Day (observed)' },
+  { date: '2027-09-06', name: 'Labor Day' },
+  { date: '2027-11-25', name: 'Thanksgiving Day' },
+  { date: '2027-12-24', name: 'Christmas Day (observed)' },
 ];
