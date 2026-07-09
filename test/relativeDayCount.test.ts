@@ -53,6 +53,24 @@ describe('relative day-count phrases', () => {
     }
   });
 
+  it('resolves "in 0 days" to `now` itself', () => {
+    const now = new Date('2024-06-07T09:00:00');
+    const result = parse('in 0 days', nyseCalendar, now);
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.date.getTime()).toBe(now.getTime());
+    }
+  });
+
+  it('resolves "0 business days after Thanksgiving" to the holiday itself', () => {
+    const now = new Date('2024-11-01T09:00:00');
+    const result = parse('0 business days after Thanksgiving', nyseCalendar, now);
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.date.toISOString().slice(0, 10)).toBe('2024-11-28');
+    }
+  });
+
   it('gives a different answer than a business-day offset when a weekend intervenes', () => {
     const friday = new Date('2024-06-07T09:00:00');
     const calendarDaysResult = parse('in 2 days', nyseCalendar, friday);
