@@ -5,7 +5,7 @@ acceptance criteria — no "works well" vibes checks.
 
 ## Epic 1 — Core NL parsing & trading-day resolution (the wow moment)
 
-- [ ] **1.1 Parse holiday-relative trading-day phrases** *(wow moment)*
+- [x] **1.1 Parse holiday-relative trading-day phrases** *(wow moment)*
   - Parsing `"the trading day before Christmas"` for a given year returns the correct
     NYSE trading day, skipping both a weekend and the Dec 25 holiday itself.
   - Parsing `"the trading day after Thanksgiving"` resolves to the actual next trading
@@ -13,14 +13,14 @@ acceptance criteria — no "works well" vibes checks.
   - An unrecognized holiday name returns `{ ok: false, reason }`, never a thrown
     exception.
 
-- [ ] **1.2 Parse relative day-count phrases**
+- [x] **1.2 Parse relative day-count phrases**
   - `"3 business days after Thanksgiving"` resolves by chaining `addBusinessDays` off the
     resolved holiday date.
   - `"in 5 days"` resolves to now + 5 *calendar* days (distinct from a business-day
     offset), and a test asserts the two give different answers when a weekend/holiday
     intervenes.
 
-- [ ] **1.3 Parse weekday references**
+- [x] **1.3 Parse weekday references**
   - `"next Friday"` from a known Wednesday resolves to the correct upcoming Friday.
   - `"last Monday"` resolves to the most recent past Monday and never returns today's
     date even if today is a Monday.
