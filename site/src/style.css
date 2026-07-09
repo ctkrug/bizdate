@@ -1,18 +1,60 @@
 /*
- * Placeholder scaffold styling only. The real visual direction lives in
- * docs/DESIGN.md and gets implemented in BUILD; this just keeps the
- * playground legible in the meantime.
+ * Visual direction: docs/DESIGN.md — blueprint/technical. Cyan-on-navy
+ * linework on a graph-paper grid; the resolved date is "plotted" like a
+ * pen stroke rather than just printed.
  */
+
+:root {
+  --bg: #0b2545;
+  --surface-1: #123057;
+  --surface-2: #1a3e6f;
+  --text: #e8eef7;
+  --text-muted: #8fa6c9;
+  --accent: #5fd8ee;
+  --accent-support: #f2a93b;
+  --success: #4ade80;
+  --danger: #f76e6e;
+
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-6: 48px;
+  --space-8: 64px;
+
+  --radius: 4px;
+  --grid-cell: 32px;
+
+  --glow: 0 0 12px rgba(95, 216, 238, 0.25);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
 body {
   margin: 0;
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: system-ui, sans-serif;
 }
 
-#app {
-  max-width: 32rem;
-  padding: 2rem;
+body {
+  color: var(--text);
+  font-family: var(--font-mono);
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(rgba(143, 166, 201, 0.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(143, 166, 201, 0.14) 1px, transparent 1px);
+  background-size: var(--grid-cell) var(--grid-cell);
+  background-position: center top;
+}
+
+@media (max-width: 768px) {
+  body {
+    --grid-cell: 20px;
+  }
 }
