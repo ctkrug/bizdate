@@ -1,0 +1,18 @@
+/*
+ * Placeholder scaffold styling only. The real visual direction lives in
+ * docs/DESIGN.md and gets implemented in BUILD; this just keeps the
+ * playground legible in the meantime.
+ */
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: system-ui, sans-serif;
+}
+
+#app {
+  max-width: 32rem;
+  padding: 2rem;
+}
