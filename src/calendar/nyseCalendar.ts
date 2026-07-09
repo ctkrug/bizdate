@@ -49,5 +49,5 @@ export class ListCalendar implements Calendar {
   }
 }
 
-/** The default NYSE market calendar (2024-2026). */
+/** The default NYSE market calendar (2024-2027). */
 export const nyseCalendar: Calendar = new ListCalendar(NYSE_HOLIDAYS);
