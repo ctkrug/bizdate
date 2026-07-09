@@ -3,15 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>bizdate — trading-calendar-aware date parsing</title>
+    <title>Almanac — Plain-English dates that know every market holiday</title>
     <meta
       name="description"
-      content="Type a phrase like 'the trading day before Christmas' and bizdate resolves it against a real market holiday calendar."
+      content="Type a phrase like 'the trading day before Christmas' and Almanac resolves it against the real NYSE holiday calendar, skipping weekends and market closures."
+    />
+    <meta property="og:title" content="Almanac — Plain-English dates that know every market holiday" />
+    <meta
+      property="og:description"
+      content="A tiny TypeScript library that turns 'next trading day' or '3 business days after Thanksgiving' into a real date, holiday-aware from the start."
     />
     <link
       rel="icon"
       type="image/svg+xml"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230B2545'/%3E%3Crect x='4' y='4' width='56' height='56' rx='6' fill='none' stroke='%235FD8EE' stroke-width='2'/%3E%3Ctext x='32' y='44' font-family='Georgia, serif' font-size='34' font-weight='700' fill='%235FD8EE' text-anchor='middle'%3Eb%3C/text%3E%3C/svg%3E"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230B2545'/%3E%3Crect x='4' y='4' width='56' height='56' rx='6' fill='none' stroke='%235FD8EE' stroke-width='2'/%3E%3Ctext x='32' y='45' font-family='Space Grotesk, Georgia, serif' font-size='36' font-weight='700' fill='%235FD8EE' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -25,8 +30,8 @@
     <div class="grid-overlay" aria-hidden="true"></div>
     <main id="app">
       <header class="hero-header">
-        <h1 class="wordmark">bizdate</h1>
-        <p class="tagline">Natural-language dates, plotted against a real trading calendar.</p>
+        <h1 class="wordmark">Almanac</h1>
+        <p class="tagline">Plain-English dates that know every market holiday.</p>
       </header>
 
       <form id="playground-form" class="playground-form" autocomplete="off">
