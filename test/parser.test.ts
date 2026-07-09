@@ -28,7 +28,7 @@ describe('parse', () => {
   });
 
   it('returns ok:false with a reason for unrecognized phrases', () => {
-    const result = parse('the trading day before Christmas', nyseCalendar);
+    const result = parse('purple monkey dishwasher', nyseCalendar);
     expect(result.ok).toBe(false);
     if (!result.ok) {
       expect(result.reason).toContain('no rule matched');
