@@ -58,3 +58,300 @@ body {
     --grid-cell: 20px;
   }
 }
+
+.grid-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 30%, transparent 0%, rgba(11, 37, 69, 0.7) 100%);
+}
+
+#app {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-3) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  gap: var(--space-4);
+}
+
+.hero-header {
+  text-align: center;
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--text);
+  text-shadow: var(--glow);
+}
+
+.wordmark::after {
+  content: '/';
+  color: var(--accent);
+  margin-left: 0.1em;
+}
+
+.tagline {
+  margin: var(--space-1) 0 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* Playground form */
+
+.playground-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: stretch;
+}
+
+.playground-form label {
+  flex-basis: 100%;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.playground-form input,
+.playground-form button {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--surface-2);
+  transition:
+    border-color 180ms var(--ease-out),
+    box-shadow 180ms var(--ease-out),
+    transform 120ms var(--ease-out),
+    background-color 180ms var(--ease-out);
+}
+
+.playground-form input {
+  flex: 1 1 260px;
+  min-width: 0;
+  padding: var(--space-2);
+  background: var(--surface-1);
+  color: var(--text);
+}
+
+.playground-form input::placeholder {
+  color: var(--text-muted);
+}
+
+.playground-form input:hover {
+  border-color: var(--accent);
+}
+
+.playground-form input:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: var(--glow);
+}
+
+.playground-form button {
+  padding: var(--space-2) var(--space-3);
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.playground-form button:hover {
+  background: #7fe3f4;
+  transform: translateY(-1px);
+}
+
+.playground-form button:focus-visible {
+  outline: none;
+  box-shadow: var(--glow);
+}
+
+.playground-form button:active {
+  transform: translateY(1px);
+  background: #4bc3d9;
+}
+
+.playground-form button:disabled {
+  background: var(--surface-2);
+  color: var(--text-muted);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Result stamp */
+
+.stamp {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 30vh;
+  gap: var(--space-2);
+  padding: var(--space-4) 0;
+}
+
+.stamp-date {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.25rem, 7vw, 4rem);
+  color: var(--text);
+  margin: 0;
+  min-height: 1.2em;
+  text-shadow: var(--glow);
+}
+
+.stamp-date.is-error {
+  color: var(--danger);
+}
+
+.stamp-underline {
+  width: min(320px, 80vw);
+  height: 20px;
+  overflow: visible;
+}
+
+.stamp-underline-path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 320;
+  stroke-dashoffset: 320;
+}
+
+.stamp-crosshair {
+  stroke: var(--accent-support);
+  stroke-width: 2;
+  fill: none;
+  transform-origin: 318px 10px;
+  transform: scale(0);
+  opacity: 0;
+}
+
+.stamp-crosshair circle {
+  fill: var(--accent-support);
+  stroke: none;
+}
+
+.stamp-underline.is-plotted .stamp-underline-path {
+  animation: plot-line 400ms var(--ease-out) forwards;
+}
+
+.stamp-underline.is-plotted .stamp-crosshair {
+  animation: plot-crosshair 200ms var(--ease-out) 400ms forwards;
+}
+
+@keyframes plot-line {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes plot-crosshair {
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.stamp-message {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin: 0;
+  min-height: 1.4em;
+}
+
+.stamp-message.is-error {
+  color: var(--danger);
+}
+
+/* Ledger */
+
+.ledger {
+  border-top: 1px solid var(--surface-2);
+  padding-top: var(--space-3);
+}
+
+.ledger-heading {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin: 0 0 var(--space-2);
+}
+
+.ledger-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.ledger-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--surface-1);
+  border: 1px solid var(--surface-2);
+  border-radius: var(--radius);
+  padding: var(--space-1) var(--space-2);
+  flex: 1 1 160px;
+}
+
+.ledger-chip-date {
+  color: var(--accent-support);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.ledger-chip-name {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+  .ledger-list {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: var(--space-1);
+    scrollbar-width: thin;
+  }
+
+  .ledger-chip {
+    flex: 0 0 auto;
+    min-width: 140px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stamp-underline.is-plotted .stamp-underline-path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+
+  .stamp-underline.is-plotted .stamp-crosshair {
+    animation: none;
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  .playground-form button:hover,
+  .playground-form button:active {
+    transform: none;
+  }
+}
