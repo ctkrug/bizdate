@@ -12,6 +12,11 @@ export interface Calendar {
   isHoliday(date: Date): boolean;
   /** True if `date` is a trading day: not a weekend, not a holiday. */
   isTradingDay(date: Date): boolean;
+  /**
+   * Finds the date of the holiday whose name contains `name` (case-insensitive)
+   * that falls closest to `near`, or `undefined` if no holiday matches.
+   */
+  findHoliday(name: string, near: Date): Date | undefined;
 }
 
 /** The result of parsing a natural-language date phrase. */
