@@ -41,15 +41,31 @@ const TRADING_DAY_RELATIVE_TO_HOLIDAY_RULE: Rule = (normalized, calendar, now) =
   return { ok: true, date, input: normalized };
 };
 
+/**
+ * addBusinessDays walks one trading day at a time (see docs/ARCHITECTURE.md),
+ * so an unbounded count is a synchronous-hang vector: 10 million measured at
+ * 18+ seconds in manual testing. No legitimate phrase needs more than this.
+ */
+const MAX_BUSINESS_DAY_COUNT = 5000;
+
 const BUSINESS_DAYS_RELATIVE_TO_HOLIDAY_RULE: Rule = (normalized, calendar, now) => {
   const match = /^(\d+) business days? (before|after) (.+)$/.exec(normalized);
   if (!match) return null;
   const [, countText, direction, holidayName] = match as unknown as [string, string, string, string];
 
+  const magnitude = Number.parseInt(countText, 10);
+  if (magnitude > MAX_BUSINESS_DAY_COUNT) {
+    return {
+      ok: false,
+      input: normalized,
+      reason: `business day count too large (max ${MAX_BUSINESS_DAY_COUNT})`,
+    };
+  }
+
   const resolved = resolveHoliday(holidayName, calendar, now, normalized);
   if (!(resolved instanceof Date)) return resolved;
 
-  const count = Number.parseInt(countText, 10) * (direction === 'before' ? -1 : 1);
+  const count = magnitude * (direction === 'before' ? -1 : 1);
   return { ok: true, date: addBusinessDays(resolved, count, calendar), input: normalized };
 };
 
