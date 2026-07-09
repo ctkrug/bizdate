@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { nyseCalendar } from '../src/calendar/nyseCalendar.js';
+import { addBusinessDays } from '../src/calendar/businessDay.js';
 import { parse } from '../src/parser/index.js';
 
 describe('parse — adversarial reference date', () => {
@@ -52,6 +53,20 @@ describe('parse — runaway business-day counts', () => {
     expect(result.ok).toBe(true);
     if (result.ok) {
       expect(result.date.toISOString().slice(0, 10)).toBe('2024-12-03');
+    }
+  });
+
+  it('still resolves a count exactly at the cap, not just under it', () => {
+    // Pins the cap as an inclusive boundary (`>`, not `>=`) so the limit
+    // check can't silently creep down to reject legitimate large-but-sane
+    // counts too.
+    const now = new Date('2024-11-01T09:00:00');
+    const thanksgiving2024 = new Date('2024-11-28T00:00:00');
+    const result = parse('5000 business days after Thanksgiving', nyseCalendar, now);
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      const expected = addBusinessDays(thanksgiving2024, 5000, nyseCalendar);
+      expect(result.date.toISOString().slice(0, 10)).toBe(expected.toISOString().slice(0, 10));
     }
   });
 });
