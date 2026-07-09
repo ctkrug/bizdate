@@ -93,11 +93,20 @@ const RULES: readonly Rule[] = [
  * phrases).
  */
 export function parse(input: string, calendar: Calendar, now: Date = new Date()): ParseResult {
+  if (Number.isNaN(now.getTime())) {
+    return { ok: false, input, reason: 'invalid reference date' };
+  }
+
   const normalized = input.trim().toLowerCase();
 
   for (const rule of RULES) {
     const result = rule(normalized, calendar, now);
-    if (result) return { ...result, input };
+    if (!result) continue;
+
+    if (result.ok && Number.isNaN(result.date.getTime())) {
+      return { ok: false, input, reason: `"${input}" resolves outside the representable date range` };
+    }
+    return { ...result, input };
   }
 
   return {
