@@ -37,7 +37,7 @@ acceptance criteria — no "works well" vibes checks.
   - A test asserts every date in `NYSE_HOLIDAYS` falls on a weekday.
   - A test asserts the holiday list is sorted ascending and has no duplicate dates.
 
-- [ ] **2.2 Prove the Calendar interface is truly pluggable**
+- [x] **2.2 Prove the Calendar interface is truly pluggable**
   - A `ListCalendar` built from a custom (non-NYSE) holiday list resolves the same
     phrases correctly through the same `parse()` function, with no NYSE-specific code
     path.

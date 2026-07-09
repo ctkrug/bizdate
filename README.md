@@ -61,6 +61,27 @@ The playground lives in `site/` and is a separate npm workspace:
 npm run build -w site
 ```
 
+## Using a custom calendar
+
+`parse()` and the business-day helpers all take a `Calendar` argument — the NYSE
+calendar is just the default instance, not a hardcoded assumption. To use a different
+exchange or a company's internal holiday list, build a `ListCalendar` from your own
+holiday data and pass it in place of `nyseCalendar`:
+
+```ts
+import { ListCalendar, parse } from 'bizdate';
+
+const myCalendar = new ListCalendar([
+  { date: '2024-10-31', name: 'Founders Day' },
+]);
+
+parse('the trading day before Founders Day', myCalendar);
+// -> { ok: true, date: <Date for 2024-10-30>, input: '...' }
+```
+
+Every phrase the parser understands resolves the same way against any `Calendar` —
+there's no NYSE-specific code path to work around.
+
 ## License
 
 MIT — see [`LICENSE`](LICENSE).
