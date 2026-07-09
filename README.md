@@ -27,16 +27,16 @@ whose business-day math is market-holiday-aware from the start.
 
 ## Status
 
-Early scope/build stage — see [`docs/VISION.md`](docs/VISION.md) for the plan and
-[`docs/BACKLOG.md`](docs/BACKLOG.md) for what's shipped vs. in progress.
+Feature-complete and ready to use — see [`docs/VISION.md`](docs/VISION.md) for the design
+rationale and [`docs/BACKLOG.md`](docs/BACKLOG.md) for the full shipped scope.
 
-## Planned features
+## Features
 
 - Natural-language parsing for relative dates, weekday references, and holiday-relative
-  phrases ("the Monday after Thanksgiving").
+  phrases ("the trading day before Christmas", "3 business days after Thanksgiving").
 - Market-holiday-aware business-day arithmetic: `nextTradingDay`, `addBusinessDays`,
   `isTradingDay`, with the NYSE calendar built in.
-- A dependency-injectable calendar interface so other markets/calendars can be added
+- A dependency-injectable `Calendar` interface so other markets/calendars can be added
   without changing the parser.
 - A static, self-contained playground (`site/`) demonstrating the parser live.
 
