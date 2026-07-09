@@ -31,6 +31,15 @@ describe('findHoliday', () => {
     expect(nyseCalendar.findHoliday('   ', near)).toBeUndefined();
   });
 
+  it('breaks an exact distance tie in favor of the earlier holiday', () => {
+    // Midpoint between Christmas 2024 and Christmas 2025 (both noon UTC to
+    // land the tie exactly): equidistant in both directions, so the choice
+    // is a real policy decision, not an incidental default.
+    const exactMidpoint = new Date('2025-06-25T12:00:00Z');
+    const result = nyseCalendar.findHoliday('christmas', exactMidpoint);
+    expect(result?.toISOString().slice(0, 10)).toBe('2024-12-25');
+  });
+
   it('works identically through a custom non-NYSE ListCalendar', () => {
     const custom = new ListCalendar([{ date: '2024-10-31', name: 'Founders Day' }]);
     const near = new Date('2024-10-01T12:00:00');
