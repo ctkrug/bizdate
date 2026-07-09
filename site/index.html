@@ -28,6 +28,15 @@
   </head>
   <body>
     <div class="grid-overlay" aria-hidden="true"></div>
+    <a class="gh-corner" href="https://github.com/ctkrug/bizdate" aria-label="View Almanac on GitHub">
+      <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+        <path
+          fill="currentColor"
+          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"
+        />
+      </svg>
+      <span>GitHub</span>
+    </a>
     <main id="app">
       <header class="hero-header">
         <h1 class="wordmark">Almanac</h1>
@@ -65,6 +74,87 @@
         <ul id="ledger-list" class="ledger-list"></ul>
       </section>
     </main>
+
+    <section class="info" aria-label="About Almanac">
+      <div class="info-inner">
+        <h2>Dates that respect the trading calendar</h2>
+        <p>
+          Almanac is a small TypeScript library that turns a person's date phrase into an actual
+          date. It treats "business day" as a day the market is open, not just any weekday. Type
+          "3 business days after Thanksgiving" and it counts forward through the NYSE calendar,
+          skipping the weekend and any holiday it lands on, then hands back the real date.
+        </p>
+        <p>
+          Most natural-language date libraries parse the words but treat a business day as "not
+          Saturday or Sunday." That breaks the moment a market holiday appears: the NYSE is closed
+          on Good Friday, on Juneteenth, and on the day it observes a holiday that fell on a
+          weekend. Almanac resolves every phrase through a calendar, so holiday awareness is the
+          default, not an add-on you wire up later.
+        </p>
+
+        <h3>Phrases it understands</h3>
+        <ul class="phrase-list">
+          <li><code>next trading day</code>: the next day the market is open</li>
+          <li><code>the trading day before Christmas</code>: holiday-relative, either direction</li>
+          <li><code>3 business days after Thanksgiving</code>: business-day math off a holiday</li>
+          <li><code>in 2 weeks</code> or <code>in 10 days</code>: plain calendar offsets</li>
+          <li><code>next Friday</code> or <code>last Monday</code>: weekday references</li>
+        </ul>
+
+        <h3>How to use it</h3>
+        <p>
+          Import <code>parse</code> and the built-in <code>nyseCalendar</code>, then call
+          <code>parse(phrase, calendar)</code>. It returns <code>{ ok: true, date }</code> when it
+          understands the phrase, or <code>{ ok: false, reason }</code> when it does not. It never
+          throws, so a form or a batch job can treat "didn't understand that" as data. Need a
+          different market or a company holiday list? Build a <code>ListCalendar</code> from your
+          own dates and pass it in; every phrase resolves against it with no NYSE-specific code
+          path.
+        </p>
+
+        <h3>FAQ</h3>
+        <dl class="faq">
+          <dt>Which holidays does it know about?</dt>
+          <dd>
+            NYSE full-closure days for 2024 through 2027, already adjusted for weekend observance
+            (a holiday on a Saturday is observed the preceding Friday). Weekends are always
+            recognized; extend the list to cover more years.
+          </dd>
+
+          <dt>Can I use a calendar other than the NYSE?</dt>
+          <dd>
+            Yes. The calendar is a plain interface you inject. Build a <code>ListCalendar</code>
+            from any exchange or internal holiday list and the parser uses it directly.
+          </dd>
+
+          <dt>Is this a full natural-language parser?</dt>
+          <dd>
+            No, and it does not pretend to be. It recognizes a fixed, documented set of phrase
+            shapes, the ones listed above. Anything it does not recognize comes back as
+            <code>ok: false</code> with a reason, never a wrong guess.
+          </dd>
+
+          <dt>What happens with garbage input?</dt>
+          <dd>
+            You get a structured failure result. Empty strings, unknown holidays, and out-of-range
+            date math all return <code>ok: false</code>. An oversized business-day count is
+            rejected before any calendar walk, so the page never hangs.
+          </dd>
+
+          <dt>Does it have runtime dependencies?</dt>
+          <dd>
+            None. The library is standard-library TypeScript, so there is no separate parser or
+            date package to fall out of sync with the calendar.
+          </dd>
+        </dl>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <a class="cta-github" href="https://github.com/ctkrug/bizdate">View on GitHub</a>
+      <a class="portfolio-link" href="https://apps.charliekrug.com">More by Charlie Krug →</a>
+    </footer>
+
     <script type="module" src="./src/main.ts"></script>
   </body>
 </html>
