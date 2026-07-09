@@ -75,7 +75,7 @@ npm run build -w site
 
 ## Holiday data range
 
-The built-in `nyseCalendar` has holiday data for 2024–2026 (see `src/calendar/nyse.ts`).
+The built-in `nyseCalendar` has holiday data for 2024–2027 (see `src/calendar/nyse.ts`).
 Weekends are always recognized, but a date outside that range is treated as a trading
 day even if it would be a real NYSE holiday — there's no silent "guess" at holidays for
 years without data. Extend `NYSE_HOLIDAYS` (or build a `ListCalendar` with your own list)
