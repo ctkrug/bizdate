@@ -47,6 +47,13 @@ walk against `Calendar#isTradingDay`, deliberately not a closed-form calculation
 correct for any holiday set without special-casing. Plain calendar-day math ("in N days",
 weekday references) lives in `parser/dateMath.ts` since it never needs a `Calendar` at all.
 
+`parse()` guards two edges around that day-by-day walk: a NaN `now` is rejected up front
+(otherwise the weekday-reference loops never terminate), and a business-day count above
+`MAX_BUSINESS_DAY_COUNT` (5000) is rejected before the walk starts, since an unbounded count
+is a synchronous-hang vector on the single-threaded playground. A resolved date that's still
+outside JS's representable range (an extreme "in N days") is caught after the fact and turned
+into `ok:false` rather than returned as an invalid `Date` under `ok:true`.
+
 ## The playground
 
 `site/` is a separate npm workspace that imports `../src/index.ts` directly (see
@@ -64,6 +71,7 @@ bundle relocatable to any subpath (e.g. `apps.charliekrug.com/bizdate/`).
 ```bash
 npm install
 npm test                # vitest, the whole library test suite
+npm run test:coverage     # vitest run --coverage, scoped to src/** by vitest.config.ts
 npm run typecheck        # tsc --noEmit
 npm run lint             # eslint src test
 npm run build             # tsc -p tsconfig.json -> dist/
