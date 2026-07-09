@@ -3,6 +3,20 @@ import { nyseCalendar } from '../src/calendar/nyseCalendar.js';
 import { addBusinessDays } from '../src/calendar/businessDay.js';
 import { parse } from '../src/parser/index.js';
 
+describe('parse — Object.prototype-shaped holiday names', () => {
+  it('never throws for a holiday name that collides with Object.prototype', () => {
+    const now = new Date('2024-12-01T09:00:00');
+    expect(() => parse('the trading day before __proto__', nyseCalendar, now)).not.toThrow();
+    expect(() => parse('the trading day before constructor', nyseCalendar, now)).not.toThrow();
+
+    const result = parse('the trading day before __proto__', nyseCalendar, now);
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.reason).toContain('unrecognized holiday');
+    }
+  });
+});
+
 describe('parse — adversarial reference date', () => {
   it('rejects an invalid `now` instead of hanging on weekday math', () => {
     const result = parse('next monday', nyseCalendar, new Date(Number.NaN));

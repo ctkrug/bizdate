@@ -16,4 +16,13 @@ describe('normalizeHolidayName', () => {
   it('is case-insensitive for alias lookup', () => {
     expect(normalizeHolidayName('XMAS')).toBe('christmas');
   });
+
+  it('treats Object.prototype property names as plain strings, not a prototype-chain lookup', () => {
+    // A plain-object alias table returns Object.prototype itself for keys like
+    // "__proto__"/"constructor" via bracket access, which then crashes any
+    // caller that expects a string back (see e.g. ListCalendar#findHoliday).
+    expect(normalizeHolidayName('__proto__')).toBe('__proto__');
+    expect(normalizeHolidayName('constructor')).toBe('constructor');
+    expect(normalizeHolidayName('hasOwnProperty')).toBe('hasownproperty');
+  });
 });
