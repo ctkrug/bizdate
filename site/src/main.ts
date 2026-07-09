@@ -77,9 +77,19 @@ function resolve(phrase: string): void {
 
 const debouncedResolve = debounce(resolve, 300);
 
+function toLocalIsoDate(date: Date): string {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
 function renderLedger(): void {
   if (!ledgerList) return;
-  const todayIso = new Date().toISOString().slice(0, 10);
+  // Local date, not toISOString()'s UTC date — NYSE_HOLIDAYS entries and the
+  // rest of the app compare dates in local time, so a UTC cutoff here would
+  // shift the ledger by a day for anyone west or east of UTC (e.g. Hawaii).
+  const todayIso = toLocalIsoDate(new Date());
   const upcoming = NYSE_HOLIDAYS.filter((h) => h.date > todayIso).slice(0, 3);
 
   ledgerList.innerHTML = '';
