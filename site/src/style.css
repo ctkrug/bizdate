@@ -154,7 +154,9 @@ body {
 .playground-form input:focus-visible {
   outline: none;
   border-color: var(--accent);
-  box-shadow: var(--glow);
+  box-shadow:
+    0 0 0 3px rgba(95, 216, 238, 0.4),
+    var(--glow);
 }
 
 .playground-form button {
@@ -173,7 +175,9 @@ body {
 
 .playground-form button:focus-visible {
   outline: none;
-  box-shadow: var(--glow);
+  box-shadow:
+    0 0 0 3px rgba(242, 169, 59, 0.55),
+    var(--glow);
 }
 
 .playground-form button:active {
