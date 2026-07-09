@@ -43,7 +43,7 @@ acceptance criteria — no "works well" vibes checks.
     path.
   - README documents how to construct and pass a custom `Calendar`.
 
-- [ ] **2.3 Year-boundary coverage**
+- [x] **2.3 Year-boundary coverage**
   - `nextTradingDay` from Dec 31 correctly rolls into January of the following year.
   - Requesting a trading day beyond the hardcoded holiday range has documented,
     tested behavior (not a silent wrong answer).
