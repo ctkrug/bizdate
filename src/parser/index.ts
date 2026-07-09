@@ -1,5 +1,6 @@
 import type { Calendar, ParseResult } from '../types.js';
 import { addBusinessDays, nextTradingDay, previousTradingDay } from '../calendar/businessDay.js';
+import { addCalendarDays } from './dateMath.js';
 import { normalizeHolidayName } from './holidayAliases.js';
 
 type Rule = (normalized: string, calendar: Calendar, now: Date) => ParseResult | null;
@@ -52,11 +53,22 @@ const BUSINESS_DAYS_RELATIVE_TO_HOLIDAY_RULE: Rule = (normalized, calendar, now)
   return { ok: true, date: addBusinessDays(resolved, count, calendar), input: normalized };
 };
 
+const IN_N_DAYS_RULE: Rule = (normalized, _calendar, now) => {
+  const match = /^in (\d+) (days?|weeks?)$/.exec(normalized);
+  if (!match) return null;
+  const [, countText, unitText] = match as unknown as [string, string, string];
+
+  const count = Number.parseInt(countText, 10);
+  const days = unitText.startsWith('week') ? count * 7 : count;
+  return { ok: true, date: addCalendarDays(now, days), input: normalized };
+};
+
 const RULES: readonly Rule[] = [
   TODAY_RULE,
   NEXT_TRADING_DAY_RULE,
   TRADING_DAY_RELATIVE_TO_HOLIDAY_RULE,
   BUSINESS_DAYS_RELATIVE_TO_HOLIDAY_RULE,
+  IN_N_DAYS_RULE,
 ];
 
 /**
