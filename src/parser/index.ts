@@ -1,5 +1,5 @@
 import type { Calendar, ParseResult } from '../types.js';
-import { nextTradingDay, previousTradingDay } from '../calendar/businessDay.js';
+import { addBusinessDays, nextTradingDay, previousTradingDay } from '../calendar/businessDay.js';
 import { normalizeHolidayName } from './holidayAliases.js';
 
 type Rule = (normalized: string, calendar: Calendar, now: Date) => ParseResult | null;
@@ -40,7 +40,24 @@ const TRADING_DAY_RELATIVE_TO_HOLIDAY_RULE: Rule = (normalized, calendar, now) =
   return { ok: true, date, input: normalized };
 };
 
-const RULES: readonly Rule[] = [TODAY_RULE, NEXT_TRADING_DAY_RULE, TRADING_DAY_RELATIVE_TO_HOLIDAY_RULE];
+const BUSINESS_DAYS_RELATIVE_TO_HOLIDAY_RULE: Rule = (normalized, calendar, now) => {
+  const match = /^(\d+) business days? (before|after) (.+)$/.exec(normalized);
+  if (!match) return null;
+  const [, countText, direction, holidayName] = match as unknown as [string, string, string, string];
+
+  const resolved = resolveHoliday(holidayName, calendar, now, normalized);
+  if (!(resolved instanceof Date)) return resolved;
+
+  const count = Number.parseInt(countText, 10) * (direction === 'before' ? -1 : 1);
+  return { ok: true, date: addBusinessDays(resolved, count, calendar), input: normalized };
+};
+
+const RULES: readonly Rule[] = [
+  TODAY_RULE,
+  NEXT_TRADING_DAY_RULE,
+  TRADING_DAY_RELATIVE_TO_HOLIDAY_RULE,
+  BUSINESS_DAYS_RELATIVE_TO_HOLIDAY_RULE,
+];
 
 /**
  * Parses a natural-language date phrase against `calendar`.
