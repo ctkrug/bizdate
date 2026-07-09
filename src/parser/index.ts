@@ -1,6 +1,6 @@
 import type { Calendar, ParseResult } from '../types.js';
 import { addBusinessDays, nextTradingDay, previousTradingDay } from '../calendar/businessDay.js';
-import { addCalendarDays } from './dateMath.js';
+import { addCalendarDays, nextWeekday, previousWeekday, weekdayIndex } from './dateMath.js';
 import { normalizeHolidayName } from './holidayAliases.js';
 
 type Rule = (normalized: string, calendar: Calendar, now: Date) => ParseResult | null;
@@ -63,12 +63,25 @@ const IN_N_DAYS_RULE: Rule = (normalized, _calendar, now) => {
   return { ok: true, date: addCalendarDays(now, days), input: normalized };
 };
 
+const WEEKDAY_REFERENCE_RULE: Rule = (normalized, _calendar, now) => {
+  const match = /^(next|last) (sunday|monday|tuesday|wednesday|thursday|friday|saturday)$/.exec(normalized);
+  if (!match) return null;
+  const [, direction, dayName] = match as unknown as [string, string, string];
+
+  const targetDay = weekdayIndex(dayName);
+  if (targetDay === undefined) return null;
+
+  const date = direction === 'next' ? nextWeekday(now, targetDay) : previousWeekday(now, targetDay);
+  return { ok: true, date, input: normalized };
+};
+
 const RULES: readonly Rule[] = [
   TODAY_RULE,
   NEXT_TRADING_DAY_RULE,
   TRADING_DAY_RELATIVE_TO_HOLIDAY_RULE,
   BUSINESS_DAYS_RELATIVE_TO_HOLIDAY_RULE,
   IN_N_DAYS_RULE,
+  WEEKDAY_REFERENCE_RULE,
 ];
 
 /**
