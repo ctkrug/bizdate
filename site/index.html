@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>bizdate — trading-calendar-aware date parsing</title>
+    <meta
+      name="description"
+      content="Type a phrase like 'next trading day' and bizdate resolves it against a real market holiday calendar."
+    />
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+    <main id="app">
+      <h1>bizdate</h1>
+      <p class="tagline">Natural-language dates, resolved against a real trading calendar.</p>
+      <form id="playground-form">
+        <label for="phrase-input">Try a phrase</label>
+        <input id="phrase-input" name="phrase" type="text" value="next trading day" autocomplete="off" />
+        <button type="submit">Resolve</button>
+      </form>
+      <p id="result" role="status" aria-live="polite"></p>
+    </main>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>
