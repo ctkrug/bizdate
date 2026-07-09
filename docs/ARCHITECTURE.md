@@ -19,7 +19,8 @@ src/
     holidayAliases.ts     # shorthand -> canonical-substring normalization ("xmas" -> "christmas")
 site/                   # Vite playground workspace, imports ../src directly (no build dep)
   index.html            # markup: hero header, phrase form, result "stamp", holiday ledger
-  src/main.ts            # wires the form/input to parse(), debounced live resolution, ledger render
+  src/main.ts            # DOM wiring: form/input -> parse(), debounced live resolution, ledger render
+  src/ledger.ts           # pure logic main.ts calls: upcomingHolidays/toLocalIsoDate (unit-tested)
   src/style.css           # docs/DESIGN.md tokens + blueprint grid + all component styling
 test/                    # one file per concern, mirrors src/ + cross-cutting behavior
 docs/
@@ -61,7 +62,13 @@ into `ok:false` rather than returned as an invalid `Date` under `ok:true`.
 live during `npm run dev -w site`. `main.ts` debounces the phrase input (300ms), renders the
 resolved date into the "stamp" (`#result-date` + an SVG underline that draws itself via
 `stroke-dashoffset`, per `docs/DESIGN.md` §4), and renders the next 3 upcoming NYSE holidays
-from `NYSE_HOLIDAYS` into the ledger strip.
+from `NYSE_HOLIDAYS` into the ledger strip via `site/src/ledger.ts#upcomingHolidays`.
+
+`ledger.ts` computes "today" from local date components (`getFullYear`/`getMonth`/`getDate`),
+not `toISOString()`'s UTC date — comparing a UTC "today" against `NYSE_HOLIDAYS`'s local
+calendar dates shifted the ledger by a day for anyone far enough from UTC (e.g. Hawaii). It's
+split out from `main.ts` specifically so this has a fast, DOM-free unit test
+(`test/siteLedger.test.ts`) instead of only a manual/Playwright check.
 
 `vite.config.ts` uses a relative base path so `npm run build -w site` produces a static
 bundle relocatable to any subpath (e.g. `apps.charliekrug.com/bizdate/`).
@@ -71,9 +78,9 @@ bundle relocatable to any subpath (e.g. `apps.charliekrug.com/bizdate/`).
 ```bash
 npm install
 npm test                # vitest, the whole library test suite
-npm run test:coverage     # vitest run --coverage, scoped to src/** by vitest.config.ts
+npm run test:coverage     # vitest run --coverage, scoped to src/** + site/src/ledger.ts
 npm run typecheck        # tsc --noEmit
-npm run lint             # eslint src test
+npm run lint             # eslint src test site/src
 npm run build             # tsc -p tsconfig.json -> dist/
 npm run dev -w site        # live playground against the local src/
 npm run build -w site       # static playground bundle -> site/dist/
