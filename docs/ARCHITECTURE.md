@@ -9,7 +9,7 @@ src/
   types.ts              # Calendar, Holiday, ParseResult — the shared vocabulary
   index.ts              # public library entrypoint (barrel export)
   calendar/
-    nyse.ts             # NYSE_HOLIDAYS: raw holiday data, 2024-2026
+    nyse.ts             # NYSE_HOLIDAYS: raw holiday data, 2024-2027
     nyseCalendar.ts      # ListCalendar (Calendar impl) + the default nyseCalendar instance
     businessDay.ts       # isTradingDay/nextTradingDay/previousTradingDay/addBusinessDays
     index.ts             # calendar barrel export
@@ -81,7 +81,7 @@ npm run build -w site       # static playground bundle -> site/dist/
 
 ## Known limits (by design, not bugs)
 
-- `NYSE_HOLIDAYS` only has data for 2024-2026. Weekends are always recognized; holidays
+- `NYSE_HOLIDAYS` only has data for 2024-2027. Weekends are always recognized; holidays
   outside that range are not, and `test/yearBoundary.test.ts` pins down and documents this
   fallback rather than letting it be a silent surprise. Extend the array to cover more years.
 - The parser is a fixed rule table, not a general NL grammar — supported phrase shapes are
