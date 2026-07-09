@@ -6,20 +6,54 @@
     <title>bizdate — trading-calendar-aware date parsing</title>
     <meta
       name="description"
-      content="Type a phrase like 'next trading day' and bizdate resolves it against a real market holiday calendar."
+      content="Type a phrase like 'the trading day before Christmas' and bizdate resolves it against a real market holiday calendar."
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230B2545'/%3E%3Crect x='4' y='4' width='56' height='56' rx='6' fill='none' stroke='%235FD8EE' stroke-width='2'/%3E%3Ctext x='32' y='44' font-family='Georgia, serif' font-size='34' font-weight='700' fill='%235FD8EE' text-anchor='middle'%3Eb%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
     />
     <link rel="stylesheet" href="./src/style.css" />
   </head>
   <body>
+    <div class="grid-overlay" aria-hidden="true"></div>
     <main id="app">
-      <h1>bizdate</h1>
-      <p class="tagline">Natural-language dates, resolved against a real trading calendar.</p>
-      <form id="playground-form">
+      <header class="hero-header">
+        <h1 class="wordmark">bizdate</h1>
+        <p class="tagline">Natural-language dates, plotted against a real trading calendar.</p>
+      </header>
+
+      <form id="playground-form" class="playground-form" autocomplete="off">
         <label for="phrase-input">Try a phrase</label>
-        <input id="phrase-input" name="phrase" type="text" value="next trading day" autocomplete="off" />
+        <input
+          id="phrase-input"
+          name="phrase"
+          type="text"
+          value="the trading day before Christmas"
+          autocomplete="off"
+          spellcheck="false"
+        />
         <button type="submit">Resolve</button>
       </form>
-      <p id="result" role="status" aria-live="polite"></p>
+
+      <section class="stamp" aria-live="polite">
+        <p id="result-date" class="stamp-date"></p>
+        <svg class="stamp-underline" viewBox="0 0 320 12" preserveAspectRatio="none" aria-hidden="true">
+          <path class="stamp-underline-path" d="M2 6 L318 6" />
+        </svg>
+        <p id="result-message" class="stamp-message"></p>
+      </section>
+
+      <section class="ledger" aria-label="Upcoming NYSE holidays">
+        <h2 class="ledger-heading">Upcoming closures</h2>
+        <ul id="ledger-list" class="ledger-list"></ul>
+      </section>
     </main>
     <script type="module" src="./src/main.ts"></script>
   </body>
