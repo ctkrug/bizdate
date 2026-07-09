@@ -46,6 +46,18 @@ TypeScript, compiled with `tsc`, tested with [Vitest](https://vitest.dev/). The
 playground is a small [Vite](https://vitejs.dev/) app that imports the library
 directly and builds to a static, relocatable bundle.
 
+## Quickstart
+
+```ts
+import { parse, nyseCalendar } from 'bizdate';
+
+parse('the trading day before Christmas', nyseCalendar, new Date('2024-12-01'));
+// -> { ok: true, date: <Date for 2024-12-24>, input: '...' }
+
+parse('3 business days after Thanksgiving', nyseCalendar, new Date('2024-11-01'));
+// -> { ok: true, date: <Date for 2024-12-03>, input: '...' }
+```
+
 ## Development
 
 ```bash

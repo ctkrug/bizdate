@@ -79,13 +79,13 @@ acceptance criteria — no "works well" vibes checks.
 
 ## Epic 4 — Packaging & docs
 
-- [ ] **4.1 Publish-ready package metadata**
+- [x] **4.1 Publish-ready package metadata**
   - `npm run build` produces `dist/index.js` and `.d.ts` files importable from a fresh
     Node ESM script.
   - `npm pack --dry-run` shows only `dist/` (plus manifest files) in the tarball —
     no `src/` or `test/` leakage.
 
-- [ ] **4.2 README quickstart with real examples**
+- [x] **4.2 README quickstart with real examples**
   - README includes a copy-pastable snippet importing bizdate and resolving at least
     two phrases from Epic 1.
   - The snippet's phrases match phrases actually covered by a test in `test/`, so the
