@@ -25,7 +25,7 @@ acceptance criteria — no "works well" vibes checks.
   - `"last Monday"` resolves to the most recent past Monday and never returns today's
     date even if today is a Monday.
 
-- [ ] **1.4 Design polish: apply docs/DESIGN.md to the playground**
+- [x] **1.4 Design polish: apply docs/DESIGN.md to the playground**
   - The grid background, Space Grotesk/JetBrains Mono fonts, and cyan-on-navy palette
     from `docs/DESIGN.md` are applied to `site/`.
   - The "plotted" resolved-date reveal (stroke-dashoffset draw-on) fires on every
@@ -33,7 +33,7 @@ acceptance criteria — no "works well" vibes checks.
 
 ## Epic 2 — Calendar correctness & extensibility
 
-- [ ] **2.1 Validate NYSE holiday data**
+- [x] **2.1 Validate NYSE holiday data**
   - A test asserts every date in `NYSE_HOLIDAYS` falls on a weekday.
   - A test asserts the holiday list is sorted ascending and has no duplicate dates.
 
@@ -50,28 +50,28 @@ acceptance criteria — no "works well" vibes checks.
 
 ## Epic 3 — Playground experience
 
-- [ ] **3.1 Live-as-you-type resolution**
+- [x] **3.1 Live-as-you-type resolution**
   - Typing in the phrase input updates the result within 300ms of the user pausing,
     with no need to press Resolve.
   - Rapid keystrokes are debounced, not queued (no overlapping/out-of-order updates).
 
-- [ ] **3.2 Upcoming-holidays ledger strip**
+- [x] **3.2 Upcoming-holidays ledger strip**
   - The ledger shows the next 3 NYSE holidays after today, sourced from
     `NYSE_HOLIDAYS`.
   - The ledger is correct across a year boundary (e.g. viewed on Dec 30, it shows into
     the following January).
 
-- [ ] **3.3 Error and empty states**
+- [x] **3.3 Error and empty states**
   - An empty phrase input shows a designed empty state, never a blank result area.
   - An unrecognized phrase shows the `ok:false` reason as styled text (`--danger`
     token), never raw JSON.
 
-- [ ] **3.4 Responsive layout at 390 / 768 / 1440**
+- [x] **3.4 Responsive layout at 390 / 768 / 1440**
   - No horizontal scroll or element overlap at any of the three widths.
   - The holiday ledger becomes a horizontally scrollable chip row below 768px, per
     `docs/DESIGN.md` §3.
 
-- [ ] **3.5 Design polish: interaction states & accessibility pass**
+- [x] **3.5 Design polish: interaction states & accessibility pass**
   - Every control (input, button) has themed hover, focus-visible, active, and
     disabled states — no naked native widgets.
   - Full keyboard tab order reaches every interactive element with visible focus at
