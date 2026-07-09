@@ -43,6 +43,16 @@ describe('relative day-count phrases', () => {
     }
   });
 
+  it('returns ok:false with a reason for an unrecognized holiday in a business-day phrase', () => {
+    const now = new Date('2024-11-01T09:00:00');
+    const result = parse('3 business days after Festivus', nyseCalendar, now);
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.reason).toContain('unrecognized holiday');
+      expect(result.reason).toContain('festivus');
+    }
+  });
+
   it('gives a different answer than a business-day offset when a weekend intervenes', () => {
     const friday = new Date('2024-06-07T09:00:00');
     const calendarDaysResult = parse('in 2 days', nyseCalendar, friday);
